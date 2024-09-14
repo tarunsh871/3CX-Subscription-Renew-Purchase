@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .payment-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .amount-display {
+            font-size: 2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .pay-button {
+            padding: 12px;
+            background-color: #1e3c72;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .pay-button:hover {
+            background-color: #2a5298;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="payment-container">
+        <h1>Confirm Your Payment</h1>
+        <div class="amount-display">
+            ₹<span id="totalAmountInr">0</span> (INR)
+        </div>
+        <button class="pay-button" id="rzp-button1">Pay Now</button>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        // Get the total amount from the URL query parameters in USD
+        const urlParams = new URLSearchParams(window.location.search);
+        const totalAmountInUsd = parseFloat(urlParams.get('amount')).toFixed(2);
+
+        // Set the exchange rate for USD to INR
+        const exchangeRateUsdToInr = 75; // Example rate: 1 USD = 75 INR
+
+        // Convert the total amount from USD to INR
+        const totalAmountInInr = (totalAmountInUsd * exchangeRateUsdToInr).toFixed(2);
+
+        // Display the total amount in INR
+        document.getElementById('totalAmountInr').textContent = totalAmountInInr;
+
+        // Configure Razorpay payment
+        const options = {
+            "key": "rzp_live_sLNCdIFDsMu6XH", // Razorpay key 
+            "amount": (totalAmountInInr * 100), // Amount in paise (INR)
+            "currency": "INR", // Set currency to INR
+            "name": "Squad System.com",
+            "description": "3CX Subscription Payment",
+            "handler": function (response) {
+                alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                window.location.href = "/payment-success"; // Redirect after payment success
+            },
+            "prefill": {
+                "name": "Your Name",
+                "email": "your.email@example.com",
+                "contact": "9999999999"
+            },
+            "notes": {
+                "subscription_id": "SUBS12345" // Additional notes for the payment
+            },
+            "theme": {
+                "color": "#1e3c72"
+            },
+            "modal": {
+                "ondismiss": function() {
+                    alert("Payment canceled or something went wrong!");
+                }
+            }
+        };
+
+        const rzp1 = new Razorpay(options);
+
+        // Attach the click event listener to open Razorpay
+        document.getElementById('rzp-button1').onclick = function (e) {
+            e.preventDefault();
+            rzp1.open();
+        };
+
+        // To check Razorpay loads correctly
+        console.log("Razorpay button configured and ready!");
+    </script>
+</body>
+
+</html>
