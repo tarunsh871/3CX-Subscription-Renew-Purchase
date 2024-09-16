@@ -36,12 +36,12 @@ body {
 /* Media queries for mobile responsiveness */
 @media (max-width: 768px) {
   .message {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .button {
     padding: 8px 15px;
-    font-size: 12px;
+    font-size: 10px;
   }
 }
 

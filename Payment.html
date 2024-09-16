@@ -18,7 +18,7 @@
         }
 
         .payment-container {
-            background-color: #fff;
+            background-color: #984141;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -28,8 +28,10 @@
 
         h1 {
             color: #1e3c72;
-            font-size: 1.8em;
+            font-size: 2.2em; 
+            font-weight: bold;
             margin-bottom: 20px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3); 
         }
 
         .amount-display {
@@ -41,7 +43,7 @@
         .pay-button {
             padding: 12px;
             background-color: #1e3c72;
-            color: white;
+            color: rgb(116, 46, 46);
             border: none;
             border-radius: 6px;
             font-size: 1.1em;
@@ -58,7 +60,7 @@
 
 <body>
     <div class="payment-container">
-        <h1>Confirm Your Payment</h1>
+        <h1>Confirm Your Payment</h1> 
         <div class="amount-display">
             ₹<span id="totalAmountInr">0</span> (INR)
         </div>
@@ -67,24 +69,23 @@
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-        // Get the total amount from the URL query parameters in USD
+        \
         const urlParams = new URLSearchParams(window.location.search);
-        const totalAmountInUsd = parseFloat(urlParams.get('amount')).toFixed(2);
+        const totalAmountInUsd = parseFloat(urlParams.get('amount')) || 0;
 
-        // Set the exchange rate for USD to INR
-        const exchangeRateUsdToInr = 75; // Example rate: 1 USD = 75 INR
+        
+        const exchangeRateUsdToInr = 75; // 
 
-        // Convert the total amount from USD to INR
         const totalAmountInInr = (totalAmountInUsd * exchangeRateUsdToInr).toFixed(2);
 
-        // Display the total amount in INR
+        
         document.getElementById('totalAmountInr').textContent = totalAmountInInr;
 
-        // Configure Razorpay payment
+        //  Razorpay payment
         const options = {
-            "key": "rzp_live_sLNCdIFDsMu6XH", // Razorpay key 
+            "key": "rzp_live_sLNCdIFDsMu6XH", // Razorpay key
             "amount": (totalAmountInInr * 100), // Amount in paise (INR)
-            "currency": "INR", // Set currency to INR
+            "currency": "INR", 
             "name": "Squad System.com",
             "description": "3CX Subscription Payment",
             "handler": function (response) {
@@ -111,13 +112,12 @@
 
         const rzp1 = new Razorpay(options);
 
-        // Attach the click event listener to open Razorpay
+        
         document.getElementById('rzp-button1').onclick = function (e) {
             e.preventDefault();
             rzp1.open();
         };
 
-        // To check Razorpay loads correctly
         console.log("Razorpay button configured and ready!");
     </script>
 </body>

@@ -1,118 +1,100 @@
-body {
-   background: linear-gradient(135deg, #a876ad, #c07f2a);
-   font-family: 'Arial', sans-serif;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   height: 100vh;
-   margin: 0;
-   color: #fff;
-   padding: 20px;
-   box-sizing: border-box;
-}
 
-.form-container {
-   background: rgba(255, 255, 255, 0.1);
-   backdrop-filter: blur(10px);
-   border-radius: 10px;
-   padding: 20px;
-   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-   max-width: 400px;
-   width: 100%;
-   text-align: center;
-   box-sizing: border-box;
-}
+        body {
+            background: linear-gradient(135deg, #a876ad, #c07f2a);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 20px; 
+        }
 
-h1 {
-   font-size: 1.8em;
-   margin-bottom: 20px;
-}
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
 
-.form-group {
-   margin-bottom: 15px;
-   text-align: left;
-}
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
 
-label {
-   font-size: 1em;
-   margin-bottom: 5px;
-   display: block;
-}
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
 
-select {
-   width: 100%;
-   padding: 10px;
-   border-radius: 5px;
-   border: none;
-   font-size: 1em;
-}
+        label {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            display: block;
+        }
 
-/* Button Styling */
-button {
-   background: linear-gradient(135deg, #797a45, #feb47b);
-   color: #0e0d0d;
-   padding: 15px;
-   width: 100%;
-   border: none;
-   border-radius: 5px;
-   font-size: 1em;
-   cursor: pointer;
-   transition: background 0.3s ease, transform 0.3s ease;
-}
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.1em;
+        }
 
-button:hover {
-   background: linear-gradient(135deg, #c67436, #ff7e5f);
-   transform: scale(1.05);
-}
+        button {
+            background: linear-gradient(135deg, #797a45, #feb47b);
+            color: #0e0d0d;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
 
-button:active {
-   transform: scale(0.98);
-}
+        button:hover {
+            background: linear-gradient(135deg, #c67436, #ff7e5f);
+            transform: scale(1.05);
+        }
 
-.half-button-container {
-   display: flex;
-   justify-content: space-between;
-   gap: 10px;
-}
+        button:active {
+            transform: scale(0.98);
+        }
 
-.half-button {
-   width: 48%;
-   padding: 15px;
-   font-size: 1em;
-}
+        .half-button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-   h1 {
-      font-size: 1.6em;
-   }
+        .half-button {
+            width: 48%;
+            padding: 15px;
+            font-size: 1.1em;
+        }
 
-   select,
-   button,
-   .half-button {
-      padding: 12px;
-      font-size: 0.9em;
-   }
-}
+        .payment-container {
+            display: none;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
 
-@media (max-width: 480px) {
-   body {
-      padding: 10px;
-   }
-
-   h1 {
-      font-size: 1.4em;
-   }
-
-   select,
-   button,
-   .half-button {
-      padding: 10px;
-      font-size: 0.85em;
-   }
-
-   .form-container {
-      max-width: 100%;
-      padding: 15px;
-   }
-}
+        .amount-display {
+            font-size: 2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+   

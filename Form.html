@@ -5,105 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configure Your 3CX Subscription</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #a876ad, #c07f2a);
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: #fff;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .form-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        h1 {
-            font-size: 1.8em;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        label {
-            font-size: 1em;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            font-size: 1em;
-        }
-
-        button {
-            background: linear-gradient(135deg, #797a45, #feb47b);
-            color: #0e0d0d;
-            padding: 15px;
-            width: 100%;
-            border: none;
-            border-radius: 5px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-
-        button:hover {
-            background: linear-gradient(135deg, #c67436, #ff7e5f);
-            transform: scale(1.05);
-        }
-
-        button:active {
-            transform: scale(0.98);
-        }
-
-        .half-button-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .half-button {
-            width: 48%;
-            padding: 15px;
-            font-size: 1em;
-        }
-
-        .payment-container {
-            display: none;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            width: 350px;
-            text-align: center;
-        }
-
-        .amount-display {
-            font-size: 2em;
-            color: #555;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="Form.css">
 </head>
 
 <body>
@@ -187,10 +89,10 @@
             try {
                 const response = await fetch('https://v6.exchangerate-api.com/v6/2d4d4515f0e1e2156f895d4e/latest/USD');
                 const data = await response.json();
-                return data.conversion_rates.INR; // Get the INR conversion rate
+                return data.conversion_rates.INR; //  INR conversion rate
             } catch (error) {
                 console.error('Error fetching exchange rate:', error);
-                return 83; // Default exchange rate as fallback
+                return 0; // 
             }
         }
 
@@ -205,57 +107,58 @@
                 totalUSD += prices[scValue].hosting;
             }
 
-            // Fetch live USD to INR conversion rate
+            // USD to INR currency 
             const exchangeRate = await getExchangeRate();
             let totalAmountInInr = (totalUSD * exchangeRate).toFixed(2);
 
-            // Directly add ₹10,000 to the total INR if support is added
-            if (supportAdded) {
-                totalAmountInInr = (parseFloat(totalAmountInInr) + 10000).toFixed(2);
-            }
+            //  18% GST
+            const gst = 0.18;
+            const totalAmountWithGST = (parseFloat(totalAmountInInr) * (1 + gst)).toFixed(2);
 
-            document.getElementById('totalAmountInr').textContent = totalAmountInInr;
+            document.getElementById('totalAmountInr').textContent = totalAmountWithGST;
 
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('paymentSection').style.display = 'block';
 
-            configureRazorpay(totalAmountInInr);
+            configureRazorpay(totalAmountWithGST);
         }
 
         function configureRazorpay(totalAmountInInr) {
             const options = {
-                "key": "rzp_live_sLNCdIFDsMu6XH", // Replace with your Razorpay key
-                "amount": (totalAmountInInr * 100), // Amount in paise
+                "key": "rzp_live_sLNCdIFDsMu6XH", //  Razorpay key
+                "amount": totalAmountInInr * 100, // Amount in paise
                 "currency": "INR",
                 "name": "3CX Subscription",
-                "description": "Subscription Renewal",
+                "description": "3CX Subscription Payment",
                 "handler": function (response) {
-                    alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                    alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
                 },
                 "prefill": {
-                    "name": "Customer Name",
-                    "email": "customer@example.com",
+                    "name": "Your Name",
+                    "email": "youremail@example.com",
                     "contact": "1234567890"
-                },
-                "theme": {
-                    "color": "#1e3c72"
                 }
             };
 
             const rzp = new Razorpay(options);
-            document.getElementById('rzp-button1').onclick = function (e) {
-                e.preventDefault();
+            document.getElementById('rzp-button1').onclick = function () {
                 rzp.open();
             };
         }
 
         function addSupport() {
+            supportAdded = !supportAdded;
+            const button = document.getElementById('supportButton');
+            button.textContent = supportAdded ? "Remove Support" : "Support";
+        }
+
+        function addSupport() {
+            window.open('https://forms.office.com/Pages/ResponsePage.aspx?id=1B1hT-HCXkau5R4nq6qH0q-VGfFe-H5BuCOwhBuQlLtUMEE4UkRHSzJaV0hLV05CVVVWNFI1SVdHVi4u ', '_blank');
             supportAdded = true;
-            alert("Support added! ₹10,000 will be added to your total.");
         }
 
         function openInstallationForm() {
-            window.open('https://docs.google.com/forms/d/e/1FAIpQLScEBjT3YSMPpnXoWrIr9z51XCfJlLNSTceTYULf7I3B8LpNrg/viewform?usp=sf_link', '_blank');
+            window.open('https://forms.office.com/Pages/ResponsePage.aspx?id=1B1hT-HCXkau5R4nq6qH0q-VGfFe-H5BuCOwhBuQlLtUOURDS0RUWEo5MVJFSExHVlY3RFpOOVIzVy4u ', '_blank');
         }
     </script>
 </body>
