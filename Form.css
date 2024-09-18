@@ -1,4 +1,5 @@
 
+        
         body {
             background: linear-gradient(135deg, #a876ad, #c07f2a);
             font-family: 'Arial', sans-serif;
@@ -28,6 +29,13 @@
         h1 {
             font-size: 2em;
             margin-bottom: 20px;
+            
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #9e5252;
         }
 
         .form-group {
@@ -97,4 +105,5 @@
             color: #555;
             margin-bottom: 20px;
         }
+   
    
