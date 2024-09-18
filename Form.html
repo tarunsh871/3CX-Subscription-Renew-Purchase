@@ -5,7 +5,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configure Your 3CX Subscription</title>
-    <link rel="stylesheet" href="Form.css">
+    <style>
+        
+        body {
+            background: linear-gradient(135deg, #a876ad, #c07f2a);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            font-size: 20px; 
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.1em;
+        }
+
+        button {
+            background: linear-gradient(135deg, #797a45, #feb47b);
+            color: #0e0d0d;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #c67436, #ff7e5f);
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .half-button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .half-button {
+            width: 48%;
+            padding: 15px;
+            font-size: 1.1em;
+        }
+
+        .payment-container {
+            display: none;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+
+        .amount-display {
+            font-size: 2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+   
+    </style>
 </head>
 
 <body>
@@ -15,7 +116,7 @@
             <div class="form-group">
                 <label for="sc">Simultaneous Calls (SC):</label>
                 <select id="sc" name="sc">
-                    <option value="1">1 SC</option>
+                    
                     <option value="4">4 SC</option>
                     <option value="8">8 SC</option>
                     <option value="16">16 SC</option>
@@ -72,7 +173,7 @@
         let supportAdded = false;
 
         const prices = {
-            "1": { "pro": 1, "ent": 1, "hosting": 1 },
+          
             "4": { "pro": 195, "ent": 245, "hosting": 250 },
             "8": { "pro": 295, "ent": 370, "hosting": 250 },
             "16": { "pro": 695, "ent": 870, "hosting": 425 },
