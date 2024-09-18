@@ -15,6 +15,7 @@
             <div class="form-group">
                 <label for="sc">Simultaneous Calls (SC):</label>
                 <select id="sc" name="sc">
+                    <option value="1">1 SC</option>
                     <option value="4">4 SC</option>
                     <option value="8">8 SC</option>
                     <option value="16">16 SC</option>
@@ -52,7 +53,8 @@
             </div>
 
             <div class="form-group half-button-container">
-                <button type="button" class="half-button" onclick="openInstallationForm()">Installation on Demand</button>
+                <button type="button" class="half-button" onclick="openInstallationForm()">Installation on
+                    Demand</button>
                 <button type="button" class="half-button" id="supportButton" onclick="addSupport()">Support</button>
             </div>
         </form>
@@ -70,6 +72,7 @@
         let supportAdded = false;
 
         const prices = {
+            "1": { "pro": 1, "ent": 1, "hosting": 1 },
             "4": { "pro": 195, "ent": 245, "hosting": 250 },
             "8": { "pro": 295, "ent": 370, "hosting": 250 },
             "16": { "pro": 695, "ent": 870, "hosting": 425 },
@@ -89,7 +92,7 @@
             try {
                 const response = await fetch('https://v6.exchangerate-api.com/v6/2d4d4515f0e1e2156f895d4e/latest/USD');
                 const data = await response.json();
-                return data.conversion_rates.INR; //  INR conversion rate
+                return data.conversion_rates.INR; //  INR conversion 
             } catch (error) {
                 console.error('Error fetching exchange rate:', error);
                 return 0; // 
@@ -107,7 +110,7 @@
                 totalUSD += prices[scValue].hosting;
             }
 
-            // USD to INR currency 
+            // USD to INR  
             const exchangeRate = await getExchangeRate();
             let totalAmountInInr = (totalUSD * exchangeRate).toFixed(2);
 
