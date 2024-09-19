@@ -9,17 +9,18 @@ body {
   background-color: #f4f4f4;
   text-align: center;
   padding: 10px;
+  background: linear-gradient(135deg, #a876ad, #c07f2a);
 }
 
 .message {
-  font-size: 18px;
+  font-size: 22px;
   margin-bottom: 18px;
-  color: #333;
+  color: #f4f4f4;
 }
 
 .button {
   padding: 10px 15px;
-  background-color: #3882d2;
+  background-color: #d2b138;
   color: #ffffff;
   text-decoration: none;
   font-size: 20px;
