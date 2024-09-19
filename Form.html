@@ -141,29 +141,22 @@
                 "name": "SQUADSYSTEMS",
                 "description": "3CX Subscription Payment",
                 "handler": function (response) {
+    // Redirect immediately after clicking "OK" on the popup
+    window.location.href = "https://squadsystems.com/";
 
-                     // Delay redirect by 10 seconds after clicking "OK" on the popup
-                    setTimeout(function () {
-                        window.location.href = "https://squadsystems.com/";
-                    }, 10000); // 10000 milliseconds = 10 seconds
+    // Hide the payment section and Pay Now button after payment is done
+    document.getElementById('paymentSection').style.display = 'none';
 
-                    
-                    // Hide the payment section and Pay Now button after payment is done
-                    document.getElementById('paymentSection').style.display = 'none';
+    // Show the transaction details
+    document.getElementById('transactionId').textContent = response.razorpay_payment_id;
+    document.getElementById('paidAmount').textContent = totalAmountInInr;
+    document.getElementById('paymentDate').textContent = new Date().toLocaleString();
+    document.getElementById('transactionDetails').style.display = 'block';
 
-                    // Show the transaction details
-                    document.getElementById('transactionId').textContent = response.razorpay_payment_id;
-                    document.getElementById('paidAmount').textContent = totalAmountInInr;
-                    document.getElementById('paymentDate').textContent = new Date().toLocaleString();
-                    document.getElementById('transactionDetails').style.display = 'block';
-                    
-                    // Hide the payment section and Pay Now button after payment is done
-                    document.getElementById('paymentSection').style.display = 'none';
-                    // Popup message on the same page
-                    alert("We have received your payment, and we will get your license to you shortly.");
+    // Popup message on the same page
+    alert("We have received your payment, and we will get your license to you shortly.");
+},
 
-                   
-                },
                 "prefill": {
                     "name": "Your Name",
                     "email": "youremail@example.com",
