@@ -1,5 +1,4 @@
 
-        
         body {
             background: linear-gradient(135deg, #a876ad, #c07f2a);
             font-family: 'Arial', sans-serif;
@@ -29,7 +28,6 @@
         h1 {
             font-size: 2em;
             margin-bottom: 20px;
-            
         }
 
         h2 {
@@ -105,5 +103,23 @@
             color: #555;
             margin-bottom: 20px;
         }
-   
-   
+
+        /* Added styles for transaction details */
+        .transaction-details {
+            background: white;
+            color: black;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            border-radius: 10px;
+        }
+
+        .transaction-details h3 {
+            margin: 0 0 10px 0;
+            color: green;
+        }
+
+        .transaction-details p {
+            margin: 5px 0;
+        }
+  

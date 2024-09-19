@@ -100,7 +100,7 @@
         <div class="amount">Total Amount: ₹<span id="totalAmount">0</span></div>
         <button id="payNowButton">Pay Now</button>
 
-        <!-- Success message and transaction details  -->
+        <!-- Success message and transaction details -->
         <div id="successMessage" class="success-message" style="display: none;">
             We have received your payment and we will get your license to you shortly.
         </div>
@@ -143,22 +143,26 @@
                 "key": "rzp_live_sLNCdIFDsMu6XH", // Razorpay key
                 "amount": totalAmount * 100, // Amount in paise
                 "currency": "INR",
-                "name": "3CX Subscription",
+                "name": "SquadSystems.com",
                 "description": "3CX Subscription Payment",
                 "handler": function (response) {
-                    // success message
+                    // Show success message
                     document.getElementById('successMessage').style.display = 'block';
 
-                    //  transaction details
+                    // Populate transaction details
                     document.getElementById('transactionId').textContent = response.razorpay_payment_id;
                     document.getElementById('paidAmount').textContent = totalAmount;
 
-                    //  current date
+                    // Get current date
                     const paymentDate = new Date().toLocaleDateString();
                     document.getElementById('paymentDate').textContent = paymentDate;
 
-                    //  transaction details section
+                    // Show transaction details
                     document.getElementById('transactionDetails').style.display = 'block';
+
+                    // Show a pop-up message and redirect
+                    alert("We have received your payment and we will get your license to you shortly.");
+                    window.location.href = "https://squadsystems.com/";
                 },
                 "prefill": {
                     "name": userName,
