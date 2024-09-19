@@ -141,6 +141,13 @@
                 "name": "SQUADSYSTEMS",
                 "description": "3CX Subscription Payment",
                 "handler": function (response) {
+
+                     // Delay redirect by 10 seconds after clicking "OK" on the popup
+                    setTimeout(function () {
+                        window.location.href = "https://squadsystems.com/";
+                    }, 10000); // 10000 milliseconds = 10 seconds
+
+                    
                     // Hide the payment section and Pay Now button after payment is done
                     document.getElementById('paymentSection').style.display = 'none';
 
@@ -149,14 +156,13 @@
                     document.getElementById('paidAmount').textContent = totalAmountInInr;
                     document.getElementById('paymentDate').textContent = new Date().toLocaleString();
                     document.getElementById('transactionDetails').style.display = 'block';
-
+                    
+                    // Hide the payment section and Pay Now button after payment is done
+                    document.getElementById('paymentSection').style.display = 'none';
                     // Popup message on the same page
                     alert("We have received your payment, and we will get your license to you shortly.");
 
-                    // Delay redirect by 10 seconds after clicking "OK" on the popup
-                    setTimeout(function () {
-                        window.location.href = "https://squadsystems.com/";
-                    }, 10000); // 10000 milliseconds = 10 seconds
+                   
                 },
                 "prefill": {
                     "name": "Your Name",
