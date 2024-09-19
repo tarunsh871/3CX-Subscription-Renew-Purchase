@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Configure Your 3CX Subscription</title>
-
     <link rel="stylesheet" href="Form.css">
 </head>
 
@@ -16,7 +15,7 @@
             <div class="form-group">
                 <label for="sc">Simultaneous Calls (SC):</label>
                 <select id="sc" name="sc">
-                    <option value="1">1 SC</option> <!--remove it only for testing-->
+                    <option value="1">1 SC</option> <!-- Remove it only for testing -->
                     <option value="4">4 SC</option>
                     <option value="8">8 SC</option>
                     <option value="16">16 SC</option>
@@ -54,15 +53,14 @@
             </div>
 
             <div class="form-group half-button-container">
-                <button type="button" class="half-button" onclick="openInstallationForm()">Installation on
-                    Demand</button>
+                <button type="button" class="half-button" onclick="openInstallationForm()">Installation on Demand</button>
                 <button type="button" class="half-button" id="supportButton" onclick="addSupport()">Support</button>
             </div>
         </form>
     </div>
 
     <!-- Payment Section -->
-    <div class="payment-container" id="paymentSection">
+    <div class="payment-container" id="paymentSection" style="display: none;">
         <h2>Confirm Your Payment</h2>
         <div class="amount-display">₹<span id="totalAmountInr">0</span> (INR)</div>
         <button id="rzp-button1">Pay Now</button>
@@ -77,106 +75,103 @@
     </div>
 
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-    let supportAdded = false;
+    <script>
+        let supportAdded = false;
 
-    const prices = {
-        "1": { "pro": 0.012, "ent": 1, "hosting": 1 },  // remove it only for testing
-        "4": { "pro": 195, "ent": 245, "hosting": 250 },
-        "8": { "pro": 295, "ent": 370, "hosting": 250 },
-        "16": { "pro": 695, "ent": 870, "hosting": 425 },
-        "24": { "pro": 995, "ent": 1245, "hosting": 425 },
-        "32": { "pro": 1350, "ent": 1690, "hosting": 850 },
-        "48": { "pro": 2095, "ent": 2620, "hosting": 850 },
-        "64": { "pro": 2750, "ent": 3440, "hosting": 850 },
-        "96": { "pro": 4495, "ent": 5620, "hosting": 1695 },
-        "128": { "pro": 5995, "ent": 7495, "hosting": 1695 },
-        "192": { "pro": 8995, "ent": 11245, "hosting": 1995 },
-        "256": { "pro": 11995, "ent": 14995, "hosting": 1995 },
-        "512": { "pro": 18995, "ent": 23745, "hosting": 0 },
-        "1024": { "pro": 34995, "ent": 43745, "hosting": 0 }
-    };
+        const prices = {
+            "1": { "pro": 0.012, "ent": 1, "hosting": 1 }, // Remove it only for testing
+            "4": { "pro": 195, "ent": 245, "hosting": 250 },
+            "8": { "pro": 295, "ent": 370, "hosting": 250 },
+            "16": { "pro": 695, "ent": 870, "hosting": 425 },
+            "24": { "pro": 995, "ent": 1245, "hosting": 425 },
+            "32": { "pro": 1350, "ent": 1690, "hosting": 850 },
+            "48": { "pro": 2095, "ent": 2620, "hosting": 850 },
+            "64": { "pro": 2750, "ent": 3440, "hosting": 850 },
+            "96": { "pro": 4495, "ent": 5620, "hosting": 1695 },
+            "128": { "pro": 5995, "ent": 7495, "hosting": 1695 },
+            "192": { "pro": 8995, "ent": 11245, "hosting": 1995 },
+            "256": { "pro": 11995, "ent": 14995, "hosting": 1995 },
+            "512": { "pro": 18995, "ent": 23745, "hosting": 0 },
+            "1024": { "pro": 34995, "ent": 43745, "hosting": 0 }
+        };
 
-    async function getExchangeRate() {
-        try {
-            const response = await fetch('https://v6.exchangerate-api.com/v6/2d4d4515f0e1e2156f895d4e/latest/USD');
-            const data = await response.json();
-            return data.conversion_rates.INR; // INR conversion
-        } catch (error) {
-            console.error('Error fetching exchange rate:', error);
-            return 0;
-        }
-    }
-
-    async function calculateTotal() {
-        const scValue = document.getElementById('sc').value;
-        const proValue = document.getElementById('pro').value;
-        const hostingOption = document.getElementById('hosting').value;
-
-        let totalUSD = prices[scValue][proValue];
-
-        if (hostingOption === "withhosting") {
-            totalUSD += prices[scValue].hosting;
-        }
-        // USD to INR
-        const exchangeRate = await getExchangeRate();
-        let totalAmountInInr = (totalUSD * exchangeRate).toFixed(2);
-
-        // 18% GST
-        const gst = 0.18;
-        const totalAmountWithGST = (parseFloat(totalAmountInInr) * (1 + gst)).toFixed(2);
-
-        document.getElementById('totalAmountInr').textContent = totalAmountWithGST;
-
-        document.getElementById('formSection').style.display = 'none';
-        document.getElementById('paymentSection').style.display = 'block';
-
-        configureRazorpay(totalAmountWithGST);
-    }
-
-    function configureRazorpay(totalAmountInInr) {
-        const options = {
-            "key": "rzp_live_sLNCdIFDsMu6XH",
-            "amount": totalAmountInInr * 100, // Amount in paise
-            "currency": "INR",
-            "name": "SQUADSYSTEMS",
-            "description": "3CX Subscription Payment",
-            "handler": function (response) {
-                // Hide the payment section and Pay Now button after payment is done
-                document.getElementById('paymentSection').style.display = 'none';
-
-                // Show the transaction details
-                document.getElementById('transactionId').textContent = response.razorpay_payment_id;
-                document.getElementById('paidAmount').textContent = totalAmountInInr;
-                document.getElementById('paymentDate').textContent = new Date().toLocaleString();
-                document.getElementById('transactionDetails').style.display = 'block';
-
-                // Popup message on the same page
-                alert("We have received your payment and we will get your license to you shortly.");
-
-                // Delay redirect by 10 seconds
-                setTimeout(function () {
-                    window.location.href = "https://squadsystems.com/";
-                }, 10000); // 10000 milliseconds = 10 seconds
-            },
-            "prefill": {
-                "name": "Your Name",
-                "email": "youremail@example.com",
-                "contact": "1234567890"
+        async function getExchangeRate() {
+            try {
+                const response = await fetch('https://v6.exchangerate-api.com/v6/2d4d4515f0e1e2156f895d4e/latest/USD');
+                const data = await response.json();
+                return data.conversion_rates.INR; // INR conversion
+            } catch (error) {
+                console.error('Error fetching exchange rate:', error);
+                return 0;
             }
-        };
+        }
 
-        const rzp = new Razorpay(options);
-        document.getElementById('rzp-button1').onclick = function () {
-            rzp.open();
-        };
-    }
+        async function calculateTotal() {
+            const scValue = document.getElementById('sc').value;
+            const proValue = document.getElementById('pro').value;
+            const hostingOption = document.getElementById('hosting').value;
 
-    function addSupport() {
-        supportAdded = !supportAdded;
-        const button = document.getElementById('supportButton');
-        button.textContent = supportAdded ? "Remove Support" : "Support";
-    }
+            let totalUSD = prices[scValue][proValue];
+
+            if (hostingOption === "withhosting") {
+                totalUSD += prices[scValue].hosting;
+            }
+
+            // USD to INR
+            const exchangeRate = await getExchangeRate();
+            let totalAmountInInr = (totalUSD * exchangeRate).toFixed(2);
+
+            // 18% GST
+            const gst = 0.18;
+            const totalAmountWithGST = (parseFloat(totalAmountInInr) * (1 + gst)).toFixed(2);
+
+            document.getElementById('totalAmountInr').textContent = totalAmountWithGST;
+
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('paymentSection').style.display = 'block';
+
+            configureRazorpay(totalAmountWithGST);
+        }
+
+        function configureRazorpay(totalAmountInInr) {
+            const options = {
+                "key": "rzp_live_sLNCdIFDsMu6XH",
+                "amount": totalAmountInInr * 100, // Amount in paise
+                "currency": "INR",
+                "name": "SQUADSYSTEMS",
+                "description": "3CX Subscription Payment",
+                "handler": function (response) {
+                    // Hide the payment section and Pay Now button after payment is done
+                    document.getElementById('paymentSection').style.display = 'none';
+
+                    // Show the transaction details
+                    document.getElementById('transactionId').textContent = response.razorpay_payment_id;
+                    document.getElementById('paidAmount').textContent = totalAmountInInr;
+                    document.getElementById('paymentDate').textContent = new Date().toLocaleString();
+                    document.getElementById('transactionDetails').style.display = 'block';
+
+                    // Popup message on the same page
+                    alert("We have received your payment, and we will get your license to you shortly.");
+
+                    // Delay redirect by 10 seconds after clicking "OK" on the popup
+                    setTimeout(function () {
+                        window.location.href = "https://squadsystems.com/";
+                    }, 10000); // 10000 milliseconds = 10 seconds
+                },
+                "prefill": {
+                    "name": "Your Name",
+                    "email": "youremail@example.com",
+                    "contact": "1234567890"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            document.getElementById('rzp-button1').onclick = function () {
+                rzp.open();
+            };
+        }
+
+       
 
         function addSupport() {
             window.open('https://forms.office.com/Pages/ResponsePage.aspx?id=1B1hT-HCXkau5R4nq6qH0q-VGfFe-H5BuCOwhBuQlLtUMEE4UkRHSzJaV0hLV05CVVVWNFI1SVdHVi4u ', '_blank');
